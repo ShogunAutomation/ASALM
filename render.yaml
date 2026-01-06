@@ -18,9 +18,3 @@ services:
       - path: /*
         name: X-Frame-Options
         value: SAMEORIGIN
-      - path: /*
-        name: X-XSS-Protection
-        value: 1; mode=block
-    envVars:
-      - key: NODE_ENV
-        value: production

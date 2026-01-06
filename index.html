@@ -251,8 +251,12 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 ASALM Project. Open Source Research Contribution.</p>
+        <p>&copy; <span id="year"></span> ASALM Project. Open Source Research Contribution.</p>
         <p>Deployed on <a href="https://render.com" style="color: #667eea; text-decoration: none;">Render</a></p>
     </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
