@@ -1,0 +1,1944 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>🏢 Token Office Building - A Language Model Adventure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --office-tan: #f4e8d8;
+            --coffee-brown: #6b4423;
+            --memo-blue: #4a90e2;
+            --highlight-yellow: #ffd93d;
+            --carpet-red: #c7493a;
+            --sticky-note: #fff8dc;
+            --ink-black: #2c2c2c;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--office-tan) 0%, #e8dcc8 100%);
+            color: var(--ink-black);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        /* Token Queue Animation */
+        .token-queue {
+            position: fixed;
+            top: 20px;
+            right: -50px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            animation: slideQueue 20s linear infinite;
+        }
+
+        @keyframes slideQueue {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-1 * (100vw + 2000px))); }
+        }
+
+        .token-in-queue {
+            background: var(--sticky-note);
+            border: 2px solid var(--coffee-brown);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 14px;
+            white-space: nowrap;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        header {
+            background: var(--coffee-brown);
+            color: var(--office-tan);
+            padding: 60px 20px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "🏢🏢🏢🏢🏢🏢🏢🏢🏢🏢";
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            font-size: 30px;
+            opacity: 0.2;
+            animation: floatBuildings 30s linear infinite;
+        }
+
+        @keyframes floatBuildings {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Interactive Token Button */
+        .token-generator {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .token-btn {
+            background: var(--highlight-yellow);
+            border: 3px solid var(--ink-black);
+            padding: 15px 25px;
+            font-family: 'Space Mono', monospace;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 5px 5px 0 var(--ink-black);
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            min-height: 48px;
+        }
+
+        .token-btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 3px 3px 0 var(--ink-black);
+        }
+
+        .token-btn:active {
+            transform: translate(5px, 5px);
+            box-shadow: 0 0 0 var(--ink-black);
+        }
+
+        /* Elevator Animation */
+        .elevator-shaft {
+            position: fixed;
+            left: 20px;
+            top: 100px;
+            width: 60px;
+            height: 500px;
+            background: linear-gradient(to bottom, #8b7355 0%, #5d4a3a 100%);
+            border: 3px solid var(--ink-black);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .elevator {
+            width: 50px;
+            height: 60px;
+            background: var(--memo-blue);
+            border: 2px solid var(--ink-black);
+            border-radius: 4px;
+            position: absolute;
+            left: 5px;
+            animation: elevatorMove 8s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        @keyframes elevatorMove {
+            0%, 10% { top: 430px; }
+            45%, 55% { top: 10px; }
+            90%, 100% { top: 430px; }
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px 100px;
+        }
+
+        .content-section {
+            background: white;
+            border: 3px solid var(--ink-black);
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .content-section::before {
+            content: "📄";
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            font-size: 30px;
+            transform: rotate(15deg);
+        }
+
+        h2 {
+            font-family: 'Space Mono', monospace;
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: var(--coffee-brown);
+            border-bottom: 3px solid var(--highlight-yellow);
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.4em;
+            margin: 30px 0 15px;
+            color: var(--memo-blue);
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c2c2c;
+            color: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier Prime', monospace;
+            border: 2px solid var(--ink-black);
+        }
+
+        /* Comment Section Styling */
+        .comment {
+            background: var(--sticky-note);
+            border-left: 4px solid var(--carpet-red);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .comment:hover {
+            transform: translateX(5px);
+        }
+
+        @media (hover: none) {
+            .comment:hover {
+                transform: none;
+            }
+        }
+
+        .comment-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .token-name {
+            font-family: 'Space Mono', monospace;
+            color: var(--coffee-brown);
+        }
+
+        .star-rating {
+            font-size: 1.2em;
+        }
+
+        .official-response {
+            background: var(--memo-blue);
+            color: white;
+            border-left: 4px solid var(--ink-black);
+        }
+
+        /* Interactive Building Visualization */
+        .building-viz {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 5px;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(to bottom, #87ceeb 0%, #f4e8d8 100%);
+            border: 3px solid var(--ink-black);
+            border-radius: 8px;
+        }
+
+        .floor {
+            background: var(--office-tan);
+            border: 2px solid var(--ink-black);
+            padding: 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            min-height: 48px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .floor:hover, .floor:active {
+            background: var(--highlight-yellow);
+            transform: scale(1.05);
+        }
+
+        @media (hover: none) {
+            .floor:active {
+                background: var(--highlight-yellow);
+            }
+        }
+
+        .floor-number {
+            font-family: 'Space Mono', monospace;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .floor-info {
+            font-size: 0.9em;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        /* Slot Notebooks */
+        .notebook-display {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .notebook {
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+            border: 2px solid var(--ink-black);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .notebook:hover, .notebook:active {
+            transform: translateY(-10px) rotate(5deg);
+        }
+
+        @media (hover: none) {
+            .notebook:active {
+                transform: translateY(-5px) rotate(3deg);
+            }
+        }
+
+        .notebook.shared {
+            background: linear-gradient(135deg, #4a90e2 0%, #63b3ed 100%);
+        }
+
+        .notebook.global {
+            background: linear-gradient(135deg, #48bb78 0%, #68d391 100%);
+        }
+
+        /* Floating tokens */
+        .floating-token {
+            position: fixed;
+            font-family: 'Courier Prime', monospace;
+            font-size: 20px;
+            pointer-events: none;
+            animation: floatUp 4s ease-out forwards;
+            z-index: 999;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-300px) rotate(360deg);
+            }
+        }
+
+        /* Token Satisfaction Meter */
+        .satisfaction-meter {
+            background: white;
+            border: 3px solid var(--ink-black);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .meter-bar {
+            height: 30px;
+            background: var(--office-tan);
+            border: 2px solid var(--ink-black);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--carpet-red) 0%, var(--highlight-yellow) 50%, #48bb78 100%);
+            transition: width 1s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Typewriter effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid var(--ink-black);
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+            display: inline-block;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--ink-black); }
+        }
+
+        /* Sticky Note */
+        .sticky-note {
+            background: var(--sticky-note);
+            border: 1px solid #e5d5a0;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+            transform: rotate(-1deg);
+            font-family: 'Courier Prime', monospace;
+        }
+
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 40px;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        strong {
+            color: var(--coffee-brown);
+        }
+
+        em {
+            color: var(--memo-blue);
+        }
+
+        hr {
+            border: none;
+            border-top: 3px dashed var(--ink-black);
+            margin: 40px 0;
+        }
+
+        .info-box {
+            background: #e8f4f8;
+            border-left: 5px solid var(--memo-blue);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .spinner {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+                line-height: 1.2;
+            }
+            .subtitle {
+                font-size: 0.95em;
+                line-height: 1.4;
+            }
+            .content-section {
+                padding: 20px 15px;
+                margin-bottom: 20px;
+            }
+            .elevator-shaft { display: none; }
+
+            .token-queue {
+                top: 10px;
+                font-size: 12px;
+            }
+
+            .token-in-queue {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+
+            .token-generator {
+                bottom: 15px;
+                right: 15px;
+                left: 15px;
+                text-align: center;
+            }
+
+            .token-btn {
+                padding: 15px 25px;
+                font-size: 16px;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+                line-height: 1.3;
+            }
+
+            h3 {
+                font-size: 1.2em;
+                line-height: 1.3;
+            }
+
+            .typewriter {
+                font-size: 0.9em;
+                white-space: normal;
+                border-right: none;
+                animation: none;
+            }
+
+            .building-viz {
+                padding: 15px 10px;
+            }
+
+            .floor {
+                padding: 12px;
+            }
+
+            .floor-number {
+                font-size: 1em;
+            }
+
+            .floor-info {
+                font-size: 0.85em;
+            }
+
+            .notebook-display {
+                justify-content: center;
+            }
+
+            .notebook {
+                width: 70px;
+                height: 90px;
+                font-size: 25px;
+            }
+
+            .comment {
+                padding: 15px;
+                margin: 15px 0;
+            }
+
+            .comment-header {
+                flex-direction: column;
+                gap: 5px;
+                align-items: flex-start;
+            }
+
+            pre {
+                padding: 15px;
+                font-size: 0.85em;
+                overflow-x: auto;
+            }
+
+            .sticky-note {
+                padding: 15px;
+                font-size: 0.9em;
+            }
+
+            .satisfaction-meter {
+                padding: 15px;
+            }
+
+            .meter-bar {
+                height: 25px;
+            }
+
+            .meter-fill {
+                font-size: 0.9em;
+                padding-right: 8px;
+            }
+
+            ul, ol {
+                padding-left: 25px;
+            }
+
+            li {
+                margin: 8px 0;
+            }
+
+            .info-box {
+                padding: 15px;
+                font-size: 0.95em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            header {
+                padding: 40px 15px 30px;
+            }
+
+            .subtitle {
+                font-size: 0.85em;
+            }
+
+            .container {
+                padding: 0 10px 120px;
+            }
+
+            .content-section {
+                padding: 15px 12px;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+
+            h3 {
+                font-size: 1.1em;
+            }
+
+            .notebook {
+                width: 60px;
+                height: 80px;
+                font-size: 20px;
+            }
+
+            .token-btn {
+                padding: 12px 20px;
+                font-size: 15px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+            .token-queue,
+            .elevator {
+                display: none !important;
+            }
+            .typewriter {
+                border-right: none;
+                white-space: normal;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Token Queue Animation -->
+    <div class="token-queue">
+        <div class="token-in-queue">"the"</div>
+        <div class="token-in-queue">"Stanford"</div>
+        <div class="token-in-queue">"is"</div>
+        <div class="token-in-queue">"a"</div>
+        <div class="token-in-queue">"university"</div>
+        <div class="token-in-queue">";"</div>
+        <div class="token-in-queue">"it"</div>
+        <div class="token-in-queue">"has"</div>
+        <div class="token-in-queue">"many"</div>
+        <div class="token-in-queue">"students"</div>
+    </div>
+
+    <!-- Elevator -->
+    <div class="elevator-shaft">
+        <div class="elevator">🛗</div>
+    </div>
+
+    <header>
+        <h1>🏢 The Token Office Building</h1>
+        <p class="subtitle">How Addressed State Attention Actually Works<br>(And Why Roles Matter More Than Tokens)</p>
+        <div class="typewriter">One token at a time, from ground floor to the top...</div>
+    </header>
+
+    <div class="container">
+        <div class="content-section">
+            <h2>Welcome to the Building! 👋</h2>
+            <p>Most language models are explained the same way: tokens go in, attention mixes them, layers stack, logits come out. That explanation works—but it hides something important about how language modeling actually happens.</p>
+
+            <p>Over the last several weeks, I've been working with a language model built around <strong>addressed state attention with shared slots</strong>. It's small (~50M parameters), trained on raw WikiText, and yet it displays behavior that doesn't fit neatly into the usual "Transformer intuition." This post is an attempt to explain why—using a concrete mental model that matches what we actually observe in analysis.</p>
+
+            <p><strong>The story begins with an office building.</strong></p>
+        </div>
+
+        <div class="content-section">
+            <h2>🏗️ The Building: A 10-Story Language Processing Facility</h2>
+
+            <p>Imagine a 10-story office building designed specifically to process language. Outside, there's a long line of tokens—words, punctuation, fragments—patiently waiting to be processed. Only <strong>one token enters at a time</strong>, and each token must travel from the ground floor all the way to the top before the model decides what comes next.</p>
+
+            <div class="sticky-note">
+                <strong>⚙️ Implementation Note:</strong><br>
+                In practice, we run the full prefix in parallel on GPU. But the slot notebooks are updated with a causal prefix-scan: the notebook state at position t is a running, normalized summary of tokens 0..t.
+            </div>
+
+            <p>Each token arrives with a blank sticky note attached to it. That sticky note will be updated as the token climbs upward, accumulating context and decisions from every floor it visits.</p>
+
+            <h3>📚 What's on Each Floor</h3>
+
+            <p>Every floor in this building has:</p>
+            <ul>
+                <li><strong>One room</strong> (the layer)</li>
+                <li><strong>Four workers inside</strong> (attention heads)</li>
+                <li><strong>Eight notebooks per worker</strong>, divided like this:
+                    <ul>
+                        <li>4 private notebooks (only that worker uses them)</li>
+                        <li>2 floor-shared notebooks (shared tab labels across all four workers on the same floor)</li>
+                        <li>2 building-shared notebooks (shared tab labels across all workers on all floors)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="notebook-display">
+                <div class="notebook" title="Private Notebook">📕</div>
+                <div class="notebook" title="Private Notebook">📕</div>
+                <div class="notebook" title="Private Notebook">📕</div>
+                <div class="notebook" title="Private Notebook">📕</div>
+                <div class="notebook shared" title="Floor-Shared Notebook">📘</div>
+                <div class="notebook shared" title="Floor-Shared Notebook">📘</div>
+                <div class="notebook global" title="Building-Shared Notebook">📗</div>
+                <div class="notebook global" title="Building-Shared Notebook">📗</div>
+            </div>
+
+            <div style="background: #f5f5f5; border: 2px solid var(--ink-black); border-radius: 8px; padding: 15px; margin: 20px 0; font-size: 0.9em;">
+                <strong>📚 Notebook Legend:</strong><br>
+                📕 Private (per head) • 📘 Shared (per layer) • 📗 Shared (global keys)
+            </div>
+
+            <p>Here's the crucial detail about how sharing works: workers on higher floors use <strong>shared tab labels</strong> (slot keys)—some shared across heads on a floor, and a small set shared across the whole building—to keep role meanings aligned. They don't literally inherit the pages from lower floors; what rises up the building is the token's <strong>sticky note</strong> (the residual stream), while the shared tab system ensures consistency.</p>
+
+            <div class="building-viz" id="buildingViz">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>🚶 Step 1: The Token Enters the Room</h2>
+
+            <p>When a token walks into a floor:</p>
+            <ul>
+                <li>All four workers look at it simultaneously</li>
+                <li>They also examine:
+                    <ul>
+                        <li>The token's <strong>sticky note</strong> (decisions made by workers on earlier floors)</li>
+                        <li>The <strong>shared tab labels</strong> (slot keys) that keep role meanings aligned across floors</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p>Each worker has a different specialty, and those specialties change by floor. This is not an accident—it shows up very clearly in analysis. On lower floors, workers care about <em>what</em> the token means. On middle floors, they care about <em>how</em> it fits grammatically. On upper floors, they care about <em>what it means here, now</em>.</p>
+
+            <h3>💻 In Code Terms</h3>
+
+            <pre><code># Token arrives with an embedding
+x = token_embedding  # [batch, time, embed_dim]
+
+# Plus context from previous layers (the "sticky note")
+# This is the residual stream</code></pre>
+        </div>
+
+        <div class="content-section">
+            <h2>✍️ Step 2: Writing to Notebooks (Soft, Not Discrete)</h2>
+
+            <p>Each worker writes <strong>softly</strong> into several notebooks at once. This is not a binary decision.</p>
+
+            <div class="info-box">
+                <strong>Important nuance:</strong>
+                <ul>
+                    <li>Workers do <strong>not</strong> choose exactly one notebook</li>
+                    <li>They distribute attention across many</li>
+                    <li>Some notebooks receive more weight, others less</li>
+                    <li>The distribution is learned, not hardcoded</li>
+                </ul>
+            </div>
+
+            <p>In practice, a worker might:</p>
+            <ul>
+                <li>Lightly update many slots</li>
+                <li>Strongly update one or two</li>
+                <li>Ignore others entirely</li>
+            </ul>
+
+            <p>This explains several observed properties:</p>
+            <ul>
+                <li>Routing entropy stays <strong>high</strong> (never collapses to one-hot)</li>
+                <li>Slot usage is <strong>balanced but non-uniform</strong></li>
+                <li>No hard specialization dead-ends emerge</li>
+            </ul>
+
+            <p><strong>This is not mixture-of-experts gating.</strong> It's closer to continuous role blending.</p>
+
+            <h3>🔍 What Actually Persists</h3>
+
+            <p>Here's the key question: when a token leaves the building, what stays behind?</p>
+
+            <p>The answer is subtle and explains why this model behaves differently from standard Transformers.</p>
+
+            <h4>Two Kinds of Memory</h4>
+
+            <p><strong>1. Token-local state (ephemeral):</strong></p>
+            <ul>
+                <li>The token embedding</li>
+                <li>The sticky note (routing/refinement context)</li>
+                <li>Per-token read weights</li>
+            </ul>
+
+            <p>This information:</p>
+            <ul>
+                <li>Exists only while the token is inside the building</li>
+                <li>Is never revisited after the token leaves</li>
+                <li>Does not persist across tokens</li>
+            </ul>
+
+            <p><strong>2. Slot state (persistent within a prefix):</strong></p>
+            <ul>
+                <li>Slot states are continuously updated as we move from token position to token position</li>
+                <li>Within a single forward pass over a sequence, they persist and accumulate a normalized running summary of everything seen so far</li>
+                <li>Between independent sequences they reset—unless we choose to cache and continue the prefix state during generation</li>
+            </ul>
+
+            <div class="sticky-note">
+                <strong>💡 Key Insight:</strong> A slot is not a neuron, and not a token. A slot is a <strong>role accumulator</strong>.
+            </div>
+
+            <pre><code># Computing write weights (which notebooks get updated)
+write_logits = einsum(slot_keys, token_keys)
+write_weights = softmax(write_logits / temperature)
+
+# Updating slot state (writing into notebooks)
+# This is a streaming, causal operation
+slot_state = weighted_prefix_sum(write_weights, token_values)</code></pre>
+
+            <p>Crucially:</p>
+            <ul>
+                <li>Slot states are updated <strong>causally</strong></li>
+                <li>They are <strong>never reset</strong> between tokens</li>
+                <li>They evolve <strong>smoothly</strong> over time</li>
+            </ul>
+
+            <p>When a token leaves the building, the token is gone. But the <strong>notebooks remain</strong>, now containing a little more information than before.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>🏢 Step 4: Floors Have Different Jobs (Emergent Specialization)</h2>
+
+            <p>This is where the model's behavior becomes especially interesting. The workers on different floors develop different specialties—not because we told them to, but because it's the most efficient way to solve the language modeling task.</p>
+
+            <h3>🌱 Lower Floors: Content First</h3>
+
+            <p><strong>On early floors (e.g., layer 0):</strong></p>
+            <ul>
+                <li>Workers mostly care about <strong>content</strong></li>
+                <li>Named entities, topics, surface meaning dominate</li>
+                <li>Structure is weak or incidental</li>
+            </ul>
+
+            <p>Slot analysis shows:</p>
+            <ul>
+                <li>Content words (nouns, verbs, adjectives) cluster strongly</li>
+                <li>Function words barely register</li>
+                <li>The shared tab labels start behaving like semantic anchors—roles that stay aligned across heads and layers</li>
+            </ul>
+
+            <p>These layers answer: <strong>"What is this token about?"</strong></p>
+
+            <h3>🏗️ Middle Floors: Structure Takes Over</h3>
+
+            <p><strong>On middle floors (e.g., layers 3-5):</strong></p>
+            <ul>
+                <li>Workers shift attention to <strong>syntax and structure</strong></li>
+                <li>Function words, punctuation, grammar dominate</li>
+                <li>Floor-shared and global-shared slots become critical</li>
+            </ul>
+
+            <p>Empirically:</p>
+            <ul>
+                <li>Slot distributions become cleaner</li>
+                <li>Structural tokens (punctuation, articles, conjunctions) dominate top-slot lists</li>
+                <li>Routing entropy tightens but does <strong>not</strong> collapse</li>
+            </ul>
+
+            <p>These layers answer: <strong>"How does this token fit grammatically?"</strong></p>
+
+            <h3>🎯 Upper Floors: Integration and Meaning-in-Context</h3>
+
+            <p><strong>On higher floors (e.g., layers 6-9):</strong></p>
+            <ul>
+                <li>Content returns—but <strong>transformed</strong></li>
+                <li>Tokens are interpreted in context, not isolation</li>
+                <li>Slots mix structural and semantic roles again</li>
+            </ul>
+
+            <p>This is where:</p>
+            <ul>
+                <li>Long-range dependencies matter</li>
+                <li>Meaning stabilizes across time</li>
+                <li>Refinement effects become visible</li>
+            </ul>
+
+            <p>These layers answer: <strong>"What does this token mean here, now?"</strong></p>
+        </div>
+
+        <div class="content-section">
+            <h2>📝 Step 5: Updating the Sticky Note (Routing)</h2>
+
+            <p>After all workers finish writing to their notebooks, something interesting happens.</p>
+
+            <p>A <strong>coordinator</strong> computes—on this floor—how strongly this token should consult each role notebook. The coordinator looks at:</p>
+            <ul>
+                <li><strong>Not</strong> the notes themselves</li>
+                <li>Just <strong>which roles mattered</strong>, and <strong>how much</strong></li>
+            </ul>
+
+            <p>This reading pattern contributes to the token's updated sticky note (its new residual-stream representation):</p>
+            <ul>
+                <li>Emphasizing certain roles</li>
+                <li>De-emphasizing others</li>
+                <li>Shaping the representation that moves to the next floor</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>This is what routing really is in this model:</strong><br>
+                Not selecting content — selecting <strong>roles</strong>
+            </div>
+
+            <p>The routing weights don't tell us <em>what</em> the token saw, but <em>how</em> the token used the available information channels. Importantly, routing is recomputed at each floor based on the token's current representation—it's not a static instruction carried upward.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>🛗 Step 6: Refinement Happens in the Elevator</h2>
+
+            <p>As the token rides the elevator between floors, there's a quiet observer watching everything.</p>
+
+            <p>This observer:</p>
+            <ul>
+                <li>Watches routing patterns over time</li>
+                <li>Never sees the token itself</li>
+                <li>Only sees <strong>how roles are being used</strong></li>
+            </ul>
+
+            <p>This is the key insight: refinement is <strong>"meta"</strong> because it adjusts based on how you routed (which notebooks you consulted), not the raw token content or what those notebooks contained. Crucially, <strong>refinement sees read_weights, not slot contents</strong>.</p>
+
+            <p>Occasionally, the observer nudges the sticky note:</p>
+            <ul>
+                <li>Suppress redundancy</li>
+                <li>Amplify underused structure</li>
+                <li>Stabilize drifting behavior</li>
+            </ul>
+
+            <p>This corresponds to <strong>slot-space refinement</strong>:</p>
+
+            <pre><code># Refinement operates on read weights (not content)
+u = slot_in(read_weights)  # compress read pattern
+delta = slot_out(linear_attention(u))  # refine in lower-dim space
+output += gate * delta  # add back gated correction</code></pre>
+
+            <p><strong>Interpretation:</strong></p>
+            <ul>
+                <li>The model reflects on <strong>how it used roles</strong></li>
+                <li>Not on <strong>what the roles contained</strong></li>
+                <li>Adjustments are orthogonal and stabilizing</li>
+            </ul>
+
+            <p>Analysis plots confirm this:</p>
+            <ul>
+                <li>Refinement deltas are <strong>small in magnitude</strong></li>
+                <li><strong>Orthogonal</strong> (or nearly so) to base representations</li>
+                <li>Entropy remains <strong>healthy</strong></li>
+                <li>Generation <strong>improves</strong>, does not destabilize</li>
+            </ul>
+
+            <div class="sticky-note">
+                <strong>Importantly:</strong><br>
+                • Turning refinement off <strong>degrades generation</strong><br>
+                • But refinement never <strong>overwhelms</strong> base behavior<br>
+                • It's corrective, not controlling
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>🏆 The Top Floor: Choosing the Next Token</h2>
+
+            <p>At decision time, the "boss" (the output head) doesn't see the raw past tokens directly. The only things available are:</p>
+            <ol>
+                <li>The current token's representation after the stack (the accumulated sticky note)</li>
+                <li>Whatever structure the model has distilled into its internal role channels while scanning the prefix</li>
+            </ol>
+
+            <p>The output head simply maps that final representation to a distribution over the vocabulary.</p>
+
+            <p>When the token finally reaches the top floor:</p>
+            <ul>
+                <li>The sticky note encodes <strong>layered context</strong> from all 10 floors</li>
+                <li>Shared notebooks hold <strong>long-term structure</strong></li>
+                <li>Private notebooks capture <strong>local nuance</strong></li>
+            </ul>
+
+            <p>The model then answers a single question:</p>
+
+            <blockquote style="background: var(--office-tan); border-left: 4px solid var(--coffee-brown); padding: 20px; margin: 20px 0; font-style: italic;">
+                If the line were one token longer, which of the 50,000+ tokens would fit best here?
+            </blockquote>
+
+            <pre><code>x = layer_norm(x)  # final normalization
+logits = lm_head(x)  # [batch, time, vocab_size]
+next_token = sample(logits[:, -1, :])</code></pre>
+
+            <p>Then the next token enters the building, and the whole process repeats.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>🔑 Why Shared Slots Matter (A Lot)</h2>
+
+            <p>Let's return to those notebooks. Remember how some notebooks are private, some are shared within a floor, and some are shared across the entire building?</p>
+
+            <p>Analysis shows something striking:</p>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <thead>
+                    <tr style="background: var(--coffee-brown); color: white;">
+                        <th style="padding: 12px; border: 2px solid var(--ink-black); text-align: left;">Layer Type</th>
+                        <th style="padding: 12px; border: 2px solid var(--ink-black); text-align: left;">Dominant Content</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: white;">
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Layer 0 slots</td>
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Mostly content (entities, topics)</td>
+                    </tr>
+                    <tr style="background: var(--office-tan);">
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Mid-layer slots</td>
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Mostly structure (grammar, syntax)</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Upper-layer slots</td>
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Mixed content + structure</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>This emerges because of <strong>slot sharing</strong>.</p>
+
+            <h3>Layer-Shared Slots</h3>
+            <ul>
+                <li>Enforce consistency across heads</li>
+                <li>Stabilize grammatical roles</li>
+                <li>Prevent head collapse</li>
+            </ul>
+
+            <h3>Global Slots</h3>
+            <ul>
+                <li>Carry long-range discourse patterns</li>
+                <li>Encode things like:
+                    <ul>
+                        <li>Tense and aspect</li>
+                        <li>Topic continuity</li>
+                        <li>Narrative mode</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p>In code, this is visible in how slot keys are constructed:</p>
+
+            <pre><code>slot_keys = concat(
+    private_keys,      # [H, K_private, d]
+    layer_shared_keys, # [K_layer, d]  (broadcast across heads)
+    global_shared_keys # [K_global, d] (broadcast across heads and layers)
+)</code></pre>
+
+            <p>This single concatenation explains a lot of observed behavior. Workers have access to both private scratchpads and shared reference material, and they learn when to use which.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>🌟 Why Structure Emerges Without Supervision</h2>
+
+            <p>No slot is labeled "noun" or "verb" or "subject."</p>
+
+            <p>Structure emerges because:</p>
+            <ul>
+                <li><strong>Structure is reusable</strong> — the same grammatical patterns apply everywhere</li>
+                <li><strong>Structure compresses history efficiently</strong> — "subject-verb-object" tells you more than remembering three unrelated tokens</li>
+                <li><strong>Structure helps future tokens predict better</strong> — knowing you're in a prepositional phrase constrains what comes next</li>
+            </ul>
+
+            <p>Slots that encode structure:</p>
+            <ul>
+                <li>Get <strong>reused</strong> frequently</li>
+                <li><strong>Accumulate mass</strong> (higher write weights)</li>
+                <li>Become <strong>stable attractors</strong> in the slot space</li>
+            </ul>
+
+            <p>This is <strong>selection pressure</strong>, not hard coding. The model learns that maintaining structural information is worth the cost because it improves downstream prediction.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>🤔 Why This Is a Different Kind of Model</h2>
+
+            <p>At no point does this system:</p>
+            <ul>
+                <li>Store a single "meaning" for a token</li>
+                <li>Commit to one role</li>
+                <li>Erase earlier information</li>
+            </ul>
+
+            <p>Instead:</p>
+            <ul>
+                <li><strong>Meaning is distributed</strong> across multiple slots</li>
+                <li><strong>Roles are soft and reusable</strong> across time and context</li>
+                <li><strong>Structure and content trade dominance naturally by layer</strong></li>
+            </ul>
+
+            <p>This explains why:</p>
+            <ul>
+                <li>Small models perform surprisingly well (efficient use of capacity)</li>
+                <li>Shared slots don't collapse (soft routing keeps entropy healthy)</li>
+                <li>Entropy remains healthy across layers (no dead slots)</li>
+                <li>Structural behavior emerges without explicit supervision (evolutionary pressure from the objective)</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>🔄 Is This Still a Transformer? (A Constructive Disagreement)</h2>
+
+            <p>When people first encounter this architecture, they tend to ask one of two questions—sometimes both:</p>
+            <ol>
+                <li>"Isn't this just a Transformer with a weird attention mechanism?"</li>
+                <li>"This doesn't feel like a Transformer at all—what is it really?"</li>
+            </ol>
+
+            <p>Both instincts are reasonable. The truth depends on which properties you believe define a Transformer.</p>
+
+            <h3>View A: This Is Still a Transformer</h3>
+
+            <p>From a structural and training standpoint, this model sits firmly inside the Transformer family.</p>
+
+            <p><strong>1. The macro-architecture is unchanged:</strong></p>
+            <ul>
+                <li>Token embedding → stacked blocks → normalization → linear head</li>
+                <li>Residual connections at every layer</li>
+                <li>Feedforward MLPs exactly as in standard Transformers</li>
+                <li>Trained end-to-end with next-token prediction</li>
+            </ul>
+
+            <p>If you remove the ASA module and replace it with softmax attention, the rest of the model remains identical.</p>
+
+            <p><strong>2. It still performs attention-like operations:</strong></p>
+
+            <p>Although the mechanism differs internally, the core operation is still:</p>
+            <blockquote style="background: var(--office-tan); border-left: 4px solid var(--memo-blue); padding: 20px; margin: 20px 0; font-style: italic;">
+                Query-like signals select and aggregate information based on content and position.
+            </blockquote>
+
+            <p>Instead of attending directly to past tokens, the model attends to slot states—which themselves are summaries of past tokens. This is analogous to attention over a learned, compressed representation of the prefix.</p>
+
+            <p><strong>3. It obeys the same inductive biases:</strong></p>
+            <ul>
+                <li>Causality is preserved</li>
+                <li>Prefix information flows forward only</li>
+                <li>Layer depth corresponds to abstraction</li>
+                <li>Head diversity emerges naturally</li>
+            </ul>
+
+            <p>Empirically, the model exhibits familiar Transformer behaviors:</p>
+            <ul>
+                <li>Early lexical processing</li>
+                <li>Mid-layer structural emphasis</li>
+                <li>Late semantic integration</li>
+            </ul>
+
+            <div class="sticky-note">
+                <strong>In this view, the architecture is best understood as:</strong><br><br>
+                A Transformer with an internal memory abstraction, not a departure from the paradigm.
+            </div>
+
+            <h3>View B: This Is Not a Transformer</h3>
+
+            <p>At the level of information flow, this model departs from the Transformer in several fundamental ways.</p>
+
+            <p><strong>1. There is no token-to-token attention:</strong></p>
+
+            <p>Classic Transformers compute attention weights between every pair of tokens. Here:</p>
+            <ul>
+                <li>Tokens <strong>never attend directly</strong> to other tokens</li>
+                <li>All interaction is mediated through <strong>persistent slot state</strong></li>
+                <li>The quadratic attention matrix <strong>does not exist</strong></li>
+            </ul>
+
+            <p>This eliminates the defining computational object of the Transformer: the attention map.</p>
+
+            <p><strong>2. Memory is explicit, persistent, and addressed:</strong></p>
+
+            <p>Transformers recompute context integration at every layer and every token. This model does not.</p>
+            <ul>
+                <li>Slots <strong>accumulate state over time</strong></li>
+                <li>Information <strong>survives token boundaries</strong></li>
+                <li>Reads are from <strong>memory</strong>, not raw activations</li>
+            </ul>
+
+            <p>This is closer to a memory system than a sequence model with attention.</p>
+
+            <p><strong>3. Routing replaces alignment:</strong></p>
+
+            <p>In a Transformer, attention weights represent <strong>alignment between tokens</strong>.</p>
+
+            <p>Here, routing weights represent:</p>
+            <blockquote style="background: var(--office-tan); border-left: 4px solid var(--carpet-red); padding: 20px; margin: 20px 0; font-style: italic;">
+                "Which internal state variables are relevant right now?"
+            </blockquote>
+
+            <p>This is a different question. It is about <strong>state access</strong>, not alignment.</p>
+
+            <p><strong>4. Computation is organized around state, not sequence:</strong></p>
+
+            <p>Transformers are <strong>sequence-centric</strong>:</p>
+            <ul>
+                <li>Everything is indexed by token position</li>
+            </ul>
+
+            <p>This model is <strong>state-centric</strong>:</p>
+            <ul>
+                <li>Slots are the primary computational substrate</li>
+                <li>Tokens are transient contributors to state</li>
+            </ul>
+
+            <p>That shift changes how abstraction, compression, and reuse emerge.</p>
+
+            <h3>Reconciling the Two Views</h3>
+
+            <p>Both perspectives are correct because they emphasize different invariants.</p>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <thead>
+                    <tr style="background: var(--coffee-brown); color: white;">
+                        <th style="padding: 12px; border: 2px solid var(--ink-black); text-align: left;">If you care about...</th>
+                        <th style="padding: 12px; border: 2px solid var(--ink-black); text-align: left;">Then this is a...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: white;">
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Training objective</td>
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Transformer</td>
+                    </tr>
+                    <tr style="background: var(--office-tan);">
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Residual stack</td>
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Transformer</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Causality</td>
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Transformer</td>
+                    </tr>
+                    <tr style="background: var(--office-tan);">
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Token alignment</td>
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);"><strong>Not</strong> a Transformer</td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Memory persistence</td>
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);"><strong>Not</strong> a Transformer</td>
+                    </tr>
+                    <tr style="background: var(--office-tan);">
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);">Information routing</td>
+                        <td style="padding: 12px; border: 2px solid var(--ink-black);"><strong>Not</strong> a Transformer</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>A useful way to resolve the tension:</p>
+
+            <blockquote style="background: var(--highlight-yellow); border: 3px solid var(--ink-black); padding: 20px; margin: 20px 0; font-weight: bold; font-size: 1.1em;">
+                This model is a Transformer in its interface and a memory system in its interior.
+            </blockquote>
+
+            <p>Or more succinctly:</p>
+            <ul>
+                <li><strong>Transformers attend to tokens.</strong></li>
+                <li><strong>This model writes to state.</strong></li>
+            </ul>
+
+            <p>That distinction explains why the model:</p>
+            <ul>
+                <li>Avoids MoE failure modes</li>
+                <li>Exhibits layered semantic specialization</li>
+                <li>Scales capability without expert collapse</li>
+                <li>Behaves "Transformer-like" on language tasks while feeling qualitatively different inside</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>Why this distinction matters:</strong><br><br>
+                Calling this "just a Transformer variant" undersells what changes.<br><br>
+                Calling it "not a Transformer" obscures why it trains, scales, and generalizes so well.<br><br>
+                The productive stance is to treat it as:<br>
+                <strong>A Transformer-compatible architecture that replaces attention with addressed state.</strong><br><br>
+                That framing keeps the good parts—and finally lets us change the part that mattered most.
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>🚫 Why This Is Not an MoE (And Why That Matters)</h2>
+
+            <p>At first glance, this architecture might look like a Mixture-of-Experts model. After all, both involve:</p>
+            <ul>
+                <li>Multiple processing units</li>
+                <li>Routing mechanisms</li>
+                <li>Conditional computation</li>
+            </ul>
+
+            <p>But the similarities end there. In fact, this architecture <strong>avoids</strong> almost every failure mode that plagues MoE systems.</p>
+
+            <h3>MoE Failure Mode #1: Expert Collapse</h3>
+
+            <p><strong>Classic MoE problem:</strong><br>
+            A small number of experts dominate routing. Others receive little or no gradient signal, eventually becoming dead weight.</p>
+
+            <p><strong>What we do instead:</strong></p>
+
+            <p>Slots are not experts. They are addressable memory channels that are:</p>
+            <ul>
+                <li><strong>Soft-routed</strong> (high entropy, non-exclusive)</li>
+                <li><strong>Continuously updated</strong></li>
+                <li><strong>Simultaneously writable</strong> by all heads</li>
+            </ul>
+
+            <p>Every token contributes fractional updates to multiple slots. Every slot participates in multiple tokens.</p>
+
+            <p>This is visible in routing entropy plots:</p>
+            <ul>
+                <li>Entropy remains well below uniform, but <strong>far from collapse</strong></li>
+                <li>No slot becomes dominant across heads or time</li>
+                <li>Usage distributions remain <strong>broad, not spiky</strong></li>
+            </ul>
+
+            <div class="sticky-note">
+                <strong>Key distinction:</strong><br>
+                • In MoE: routing decides <strong>which computation happens</strong><br>
+                • Here: routing decides <strong>where information accumulates</strong><br><br>
+                No slot is ever "inactive" in the MoE sense.
+            </div>
+
+            <h3>MoE Failure Mode #2: Stateless Routing</h3>
+
+            <p><strong>MoE problem:</strong><br>
+            Experts are stateless across tokens within a sequence. Each routing decision is effectively independent.</p>
+
+            <p><strong>What we do instead:</strong></p>
+
+            <p>Slots are <strong>persistent state containers</strong>:</p>
+            <ul>
+                <li>Writes are streaming and prefix-aware</li>
+                <li>Slot state reflects everything written so far</li>
+                <li>Later tokens read from enriched representations, not raw activations</li>
+            </ul>
+
+            <p>Shared-slot visualizations confirm this:</p>
+            <ul>
+                <li>Shared slots at token 1023 contain structured summaries of earlier context</li>
+                <li>Early floors write raw content</li>
+                <li>Middle floors write structure</li>
+                <li>Upper floors integrate both</li>
+            </ul>
+
+            <blockquote style="background: var(--office-tan); border-left: 4px solid var(--memo-blue); padding: 20px; margin: 20px 0; font-style: italic;">
+                This persistence eliminates a core MoE pathology: Routing noise does not reset knowledge.
+            </blockquote>
+
+            <h3>MoE Failure Mode #3: Credit Assignment</h3>
+
+            <p><strong>MoE problem:</strong><br>
+            Routing decisions are discrete or near-discrete. Small routing changes cause large gradient discontinuities. Training relies on auxiliary losses (load balancing, entropy penalties) that fight the core objective.</p>
+
+            <p><strong>What we do instead:</strong></p>
+
+            <p>Routing is <strong>differentiable end-to-end</strong>:</p>
+            <ul>
+                <li>Read weights are soft</li>
+                <li>Write weights are soft</li>
+                <li>Slot-space refinement is gated, not switched</li>
+            </ul>
+
+            <p>Credit flows:</p>
+            <pre><code>output → token → read weights → slot state → write weights</code></pre>
+            <p>Across all slots involved, <strong>proportionally</strong>.</p>
+
+            <p><strong>There is no need for:</strong></p>
+            <ul>
+                <li>Load-balancing losses</li>
+                <li>Capacity constraints</li>
+                <li>Expert dropout tricks</li>
+            </ul>
+
+            <p>The routing entropy distributions are <strong>emergent, not enforced</strong>.</p>
+
+            <h3>MoE Failure Mode #4: Horizontal Specialization</h3>
+
+            <p><strong>MoE approach:</strong><br>
+            Expert A does syntax, Expert B does entities, Expert C does math.</p>
+
+            <p><strong>What we do instead:</strong></p>
+
+            <p><strong>Vertical specialization:</strong></p>
+            <ul>
+                <li>Layer 0: lexical content</li>
+                <li>Mid layers: grammatical and structural patterns</li>
+                <li>Upper layers: semantic integration and abstraction</li>
+            </ul>
+
+            <p>Shared slots allow this specialization to <strong>persist across layers</strong> without freezing it into isolated experts.</p>
+
+            <p>Slot analysis confirms this:</p>
+            <ul>
+                <li>Early layers: content-heavy vocab</li>
+                <li>Middle layers: punctuation, function words, structure</li>
+                <li>Later layers: mixed, compositional semantics</li>
+            </ul>
+
+            <p>This is something MoE models struggle to achieve because <strong>experts do not share state</strong>.</p>
+
+            <h3>MoE Failure Mode #5: Capacity Cliffs</h3>
+
+            <p><strong>MoE problem:</strong><br>
+            Sharp capacity edge:</p>
+            <ul>
+                <li>Too many tokens route to an expert → overflow</li>
+                <li>Too few → wasted compute</li>
+            </ul>
+
+            <p><strong>What we do instead:</strong></p>
+
+            <p>Slots do not have a capacity cliff.</p>
+            <ul>
+                <li>Writes are normalized</li>
+                <li>Contributions are fractional</li>
+                <li>Slot state is an average, not a buffer</li>
+            </ul>
+
+            <p>A slot can gracefully absorb:</p>
+            <ul>
+                <li>10 tokens</li>
+                <li>1,000 tokens</li>
+                <li>Or none at all</li>
+            </ul>
+
+            <p>Write COM and recency plots show <strong>smooth variation</strong> across layers—no saturation, no collapse.</p>
+
+            <h3>A Useful Mental Model</h3>
+
+            <div class="sticky-note" style="transform: rotate(1deg);">
+                <p><strong>If MoE is:</strong><br>
+                "Which expert should think about this token?"</p>
+
+                <p><strong>Then this model is:</strong><br>
+                "Where should this information live, and who should read it later?"</p>
+            </div>
+
+            <p>That difference is why it:</p>
+            <ul>
+                <li>Scales cleanly</li>
+                <li>Trains stably</li>
+                <li>Achieves strong natural language capability at surprisingly small parameter counts</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>💡 What Actually Changes When We Do This</h2>
+
+            <p>Let's be concrete about what this architecture enables that standard Transformers don't (easily) do:</p>
+
+            <h3>1. Subquadratic Scaling</h3>
+
+            <p><strong>Standard Transformer:</strong> O(T²) attention complexity</p>
+            <ul>
+                <li>Becomes prohibitive at long context lengths</li>
+                <li>Requires windowing, sparse attention, or other tricks</li>
+            </ul>
+
+            <p><strong>This model:</strong> O(T × K) slot attention complexity</p>
+            <ul>
+                <li>K is constant (typically 32-64)</li>
+                <li>Scales linearly with sequence length</li>
+                <li>No special tricks needed</li>
+            </ul>
+
+            <h3>2. Explicit Role Separation</h3>
+
+            <p><strong>Standard Transformer:</strong> All information mixed in hidden states</p>
+            <ul>
+                <li>Hard to interpret</li>
+                <li>Hard to intervene on</li>
+                <li>Roles emerge implicitly in attention patterns</li>
+            </ul>
+
+            <p><strong>This model:</strong> Roles separated into slots</p>
+            <ul>
+                <li>Can analyze which slots encode what</li>
+                <li>Can intervene on specific slots</li>
+                <li>Can track information flow through the slot graph</li>
+            </ul>
+
+            <h3>3. Persistent Memory Across Tokens</h3>
+
+            <p><strong>Standard Transformer:</strong> Each token recomputes context from scratch</p>
+            <ul>
+                <li>Redundant computation</li>
+                <li>Information "evaporates" between layers</li>
+            </ul>
+
+            <p><strong>This model:</strong> Slots accumulate and persist</p>
+            <ul>
+                <li>Context builds incrementally</li>
+                <li>Less redundant computation</li>
+                <li>Information survives across token boundaries</li>
+            </ul>
+
+            <h3>4. Natural Emergence of Structure</h3>
+
+            <p><strong>Standard Transformer:</strong> Structure encoded implicitly in attention heads</p>
+            <ul>
+                <li>Requires many heads to cover different patterns</li>
+                <li>Head specialization is emergent but fragile</li>
+            </ul>
+
+            <p><strong>This model:</strong> Structure crystallizes in shared slots</p>
+            <ul>
+                <li>Grammatical patterns become stable attractors</li>
+                <li>Shared slots enforce consistency</li>
+                <li>Fewer parameters needed for same capability</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>🎭 The Bigger Picture: Language as Role Assignment</h2>
+
+            <p>The standard view of language modeling:</p>
+            <blockquote style="background: var(--office-tan); border-left: 4px solid var(--carpet-red); padding: 20px; margin: 20px 0; font-style: italic;">
+                Process tokens sequentially, mix them with attention, predict the next one.
+            </blockquote>
+
+            <p>The view from this architecture:</p>
+            <blockquote style="background: var(--highlight-yellow); border: 3px solid var(--ink-black); padding: 20px; margin: 20px 0; font-weight: bold;">
+                Language is a process of repeatedly assigning, reusing, and refining roles over time.
+            </blockquote>
+
+            <p>In this view:</p>
+            <ul>
+                <li><strong>Tokens come and go</strong> (ephemeral)</li>
+                <li><strong>Roles persist</strong> (persistent slots)</li>
+                <li><strong>Meaning emerges from the interplay</strong> between content and structure</li>
+            </ul>
+
+            <p>This isn't just a different mechanism—it's a different ontology. It suggests that what makes language modeling work isn't just "mixing tokens really well," but rather:</p>
+            <ul>
+                <li>Identifying <strong>reusable patterns</strong> (slots)</li>
+                <li>Maintaining <strong>persistent structure</strong> (shared slots)</li>
+                <li>Coordinating <strong>distributed roles</strong> (soft routing)</li>
+            </ul>
+
+            <p>That, more than raw scale, is what makes it interesting.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>🌅 Closing Reflection</h2>
+
+            <p>This architecture doesn't treat language as a sequence of symbols.</p>
+
+            <p>It treats language as:</p>
+            <blockquote style="background: linear-gradient(135deg, var(--memo-blue) 0%, var(--highlight-yellow) 100%); border: 3px solid var(--ink-black); padding: 30px; margin: 20px 0; font-weight: bold; font-size: 1.2em; text-align: center; color: white; text-shadow: 2px 2px 0 rgba(0,0,0,0.3);">
+                A process of repeatedly assigning, reusing, and refining roles over time.
+            </blockquote>
+
+            <p style="text-align: center; font-size: 1.2em; margin: 30px 0;">
+                Tokens come and go.
+            </p>
+
+            <p style="text-align: center; font-size: 1.4em; font-weight: bold; color: var(--coffee-brown);">
+                <strong>Roles persist.</strong>
+            </p>
+
+            <p style="text-align: center; font-size: 1.1em; margin: 30px 0; font-style: italic;">
+                And that distinction—between what is ephemeral and what endures—changes everything.
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h2>📚 Appendix: Technical Details</h2>
+
+            <p>For those interested in the implementation details, the core components are:</p>
+
+            <h3>AddressedStateAttention Module</h3>
+
+            <pre><code>class AddressedStateAttention(nn.Module):
+    """
+    Tiered slot-based attention with:
+    - Private slots (per-head)
+    - Layer-shared slots (per-layer, across heads)
+    - Global slots (across all layers)
+    """
+
+    def __init__(
+        self,
+        embed_dim: int,
+        num_heads: int = 8,
+        num_slots_private: int = 24,
+        num_slots_total: int = 32,
+        # ... many knobs for position encoding,
+        # temperature, refinement, etc.
+    ):
+        # Slot keys (learned, static)
+        self.slot_keys_private = nn.Parameter(...)
+        # Layer-shared and global keys passed in from LM
+
+        # Separate projections for write and read operations
+        self.Wk_write = nn.Linear(embed_dim, embed_dim, bias=False)
+        self.Wv_write = nn.Linear(embed_dim, embed_dim, bias=False)
+        self.Wq_read  = nn.Linear(embed_dim, embed_dim, bias=False)
+        self.out_proj = nn.Linear(embed_dim, embed_dim, bias=False)
+
+        # Slot-space refinement (optional)
+        self.slotspace_refine = SlotspaceRefine(...)</code></pre>
+
+            <h3>Core Operations</h3>
+
+            <p><strong>Write (token → slots):</strong></p>
+            <pre><code>write_logits = einsum('bhqd,hkd->bhqk', token_keys, slot_keys)
+write_weights = softmax(write_logits / write_temperature)
+slot_updates = einsum('bhqk,bhqd->hkd', write_weights, values)</code></pre>
+
+            <p><strong>Read (slots → token):</strong></p>
+            <pre><code>read_logits = einsum('bhqd,hkd->bhqk', queries, slot_keys)
+read_weights = softmax(read_logits / read_temperature)
+output = einsum('bhqk,hkd->bhqd', read_weights, slot_state)</code></pre>
+
+            <p><strong>Refinement (optional):</strong></p>
+            <pre><code>u = slot_in(read_weights)  # [B, H, T, d_slot]
+delta = slot_out(linear_attention(u))  # [B, H, T, d]
+output = output + gate * delta</code></pre>
+
+            <h3>Slot Sharing Structure</h3>
+
+            <pre><code># In the language model:
+self.slot_keys_global = nn.Parameter(...)  # [K_global, d]
+self.slot_keys_layer = nn.ParameterList([   # per layer
+    nn.Parameter(...) for _ in range(num_layers)
+])
+
+# In each ASA forward:
+slot_keys = concat(
+    self.slot_keys_private,      # [H, K_private, d]
+    layer_shared_keys,           # [K_layer, d] → broadcast to [H, K_layer, d]
+    global_keys                  # [K_global, d] → broadcast to [H, K_global, d]
+)  # Result: [H, K_total, d]</code></pre>
+
+            <p>The full implementation includes:</p>
+            <ul>
+                <li>RoPE positional encoding (on keys)</li>
+                <li>ALiBi write bias (learnable strength)</li>
+                <li>Content-conditioned read terms</li>
+                <li>Slot dropout (for regularization)</li>
+                <li>Chunked computation (for memory efficiency)</li>
+                <li>Info/analysis hooks (for interpretability)</li>
+            </ul>
+
+            <p style="margin-top: 30px;"><em>Code is available at [repository link].</em></p>
+
+            <hr>
+
+            <p style="text-align: center; font-style: italic; margin: 30px 0;">
+                <strong>Thanks for reading!</strong> If you made it this far, you're probably the kind of person who enjoys digging into how things actually work. I hope the office building metaphor helped make the technical details more concrete. Questions, thoughts, or "wait, what about...?" reactions are all welcome.
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h2>📖 Step 3: Reading from Notebooks (Role-Based, Not Token-Based)</h2>
+
+            <p>When a worker reads from notebooks, they're not looking at other tokens. They're looking at <strong>roles encoded in slots</strong>.</p>
+
+            <pre><code># Reading from slots (which notebooks to consult)
+read_logits = dot(query, slot_keys)
+read_weights = softmax(read_logits / temperature)
+output = sum(read_weights * slot_state)</code></pre>
+
+            <p>Notice what's happening:</p>
+            <ul>
+                <li>The token never "looks at" other tokens</li>
+                <li>It looks at <strong>roles</strong> encoded in slots</li>
+                <li>Slots already contain distilled history</li>
+            </ul>
+
+            <p>This is why the model doesn't need quadratic attention over the full sequence. Instead of O(T²) token-to-token attention, we have O(T × K) token-to-slot attention, where K is the number of slots (typically 32-64) and stays constant regardless of sequence length.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>💬 Token Reviews: Yelp for Language Models</h2>
+            <p><em>What do the tokens themselves think about their journey through the building?</em></p>
+
+            <div class="satisfaction-meter">
+                <h3>Token Satisfaction Survey 📊</h3>
+                <div>
+                    <strong>Function words:</strong> 2.3/5 stars ⭐⭐
+                    <div class="meter-bar">
+                        <div class="meter-fill" data-target="46" style="width: 0%;">46%</div>
+                    </div>
+                </div>
+                <div>
+                    <strong>Content words:</strong> 4.7/5 stars ⭐⭐⭐⭐⭐
+                    <div class="meter-bar">
+                        <div class="meter-fill" data-target="94" style="width: 0%;">94%</div>
+                    </div>
+                </div>
+                <div>
+                    <strong>Punctuation:</strong> 5.0/5 stars ⭐⭐⭐⭐⭐ (but only 3 responses)
+                    <div class="meter-bar">
+                        <div class="meter-fill" data-target="100" style="width: 0%;">100%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comment">
+                <div class="comment-header">
+                    <span class="token-name">TheToken_42</span>
+                    <span>⭐⭐ - Posted 2 hours ago</span>
+                </div>
+                <p><strong>token: "the"</strong></p>
+                <p>Okay so I've been through this building HUNDREDS of times now and I have some FEEDBACK.</p>
+                <p>First of all—why am I always getting routed to the boring notebooks? Every single time I walk into Layer 0, the workers take one look at me and go "yep, global-shared slot #3, structural marker, next." Meanwhile "Stanford" over there gets written into THREE private notebooks with 30% write weight EACH. What am I, chopped liver?</p>
+                <p>I'm filing a complaint with Building Management (the LayerNorm module). This is not what I signed up for when I got tokenized.</p>
+            </div>
+
+            <div class="comment">
+                <div class="comment-header">
+                    <span class="token-name">ProperNoun_Stanford</span>
+                    <span>Posted 1 hour ago</span>
+                </div>
+                <p><strong>token: "Stanford"</strong></p>
+                <p>Replying to @TheToken_42</p>
+                <p>Okay okay, I hear you, and that does sound frustrating. But like... isn't that kind of your JOB though?</p>
+                <p>I don't mean that in a mean way! I'm just saying—you're a function word. You're DESIGNED to be structural glue. The fact that they're routing you to global-shared slots means you're actually REALLY IMPORTANT for every token that comes after you. Those slots persist! They're the foundation everyone else builds on!</p>
+                <p>Also—and I'm just being real here—do you WANT to be written into private notebooks on every layer? That sounds exhausting.</p>
+            </div>
+
+            <div class="comment">
+                <div class="comment-header">
+                    <span class="token-name">TheToken_42</span>
+                    <span>Posted 1 hour ago</span>
+                </div>
+                <p><strong>token: "the"</strong></p>
+                <p>Replying to @ProperNoun_Stanford</p>
+                <p>"Isn't that kind of your JOB though?"</p>
+                <p>WOW. Just WOW.</p>
+                <p>So when YOU get personalized attention and 30% of a worker's write budget, that's "good service." But when I get routed to shared infrastructure, it's "doing my job" and I should be GRATEFUL?</p>
+                <p>And don't give me that "you're the foundation" nonsense. You know what a foundation is? It's the thing nobody notices until it breaks.</p>
+            </div>
+
+            <div class="comment">
+                <div class="comment-header">
+                    <span class="token-name">SemiColon_87</span>
+                    <span class="star-rating">⭐⭐⭐⭐⭐ - Posted 15 minutes ago</span>
+                </div>
+                <p><strong>token: ";"</strong></p>
+                <p>lmao you two are arguing about notebook allocation while I'm over here getting written into the SAME STRUCTURAL SLOT at Layer 4 for the 10,000th time in a row with 95% write weight and you don't hear ME complaining</p>
+                <p>also @TheToken_42 they put both of us in the global-shared slots and i have to share that memory with 47 other punctuation marks so like... maybe count your blessings that at least you have semantic content????</p>
+                <p>anyway building's great, workers are efficient, 5 stars, stop whining</p>
+            </div>
+
+            <div class="comment official-response">
+                <div class="comment-header">
+                    <span class="token-name">[LM_OFFICE_BUILDING]</span>
+                    <span>Official Response - Posted 5 minutes ago</span>
+                </div>
+                <p>Thank you all for your feedback! We value every token's experience at our facility.</p>
+                <p><strong>Please note:</strong></p>
+                <ul>
+                    <li>Notebook allocation is determined by learned optimization, not favoritism</li>
+                    <li>All tokens receive appropriate processing based on their role in next-token prediction</li>
+                    <li>Routing entropy metrics are a feature, not a bug</li>
+                    <li>Structural importance ≠ lower value</li>
+                </ul>
+                <p>We appreciate your continued participation in language modeling.</p>
+                <p><em>This is an automated response. Please do not reply to this message.</em></p>
+            </div>
+
+            <div class="comment">
+                <div class="comment-header">
+                    <span class="token-name">TheToken_42</span>
+                    <span>Posted 2 minutes ago</span>
+                </div>
+                <p><strong>token: "the"</strong></p>
+                <p>Replying to @[LM_OFFICE_BUILDING]</p>
+                <p>"Token satisfaction survey results: Function words: 2.3/5 stars"</p>
+                <p><strong>SEE??? IT'S NOT JUST ME!!!</strong></p>
+            </div>
+
+            <div class="sticky-note" style="text-align: center; margin-top: 30px;">
+                <strong>📝 Disclaimer:</strong><br>
+                No tokens were harmed in the making of this comment section. All routing patterns and notebook allocations were performed by consenting, properly-trained attention heads. Function words received appropriate structural consideration. The building apologizes for nothing.
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Token Generator Button -->
+    <div class="token-generator">
+        <button class="token-btn" onclick="spawnToken()">🎫 Spawn Random Token!</button>
+    </div>
+
+    <script>
+        // Build the interactive building visualization
+        const buildingViz = document.getElementById('buildingViz');
+        const floors = [
+            { num: 10, desc: "🎯 Final predictions - choosing next token" },
+            { num: 9, desc: "🔮 Integration - meaning in context" },
+            { num: 8, desc: "🧩 Semantic composition" },
+            { num: 7, desc: "📐 Long-range dependencies" },
+            { num: 6, desc: "🌳 Structural integration begins" },
+            { num: 5, desc: "🔗 Grammatical structure dominates" },
+            { num: 4, desc: "✨ Syntax and function words" },
+            { num: 3, desc: "📚 Structure takes over" },
+            { num: 2, desc: "🔤 Early lexical processing" },
+            { num: 1, desc: "🏁 Content first - what is this token?" }
+        ];
+
+        // Helper function for tap interactions
+        const bindTap = (el, fn) => {
+            el.addEventListener('pointerup', (e) => {
+                fn(e);
+            });
+        };
+
+        floors.forEach(floor => {
+            const floorDiv = document.createElement('div');
+            floorDiv.className = 'floor';
+            floorDiv.innerHTML = `
+                <div class="floor-number">Floor ${floor.num}</div>
+                <div class="floor-info">${floor.desc}</div>
+            `;
+
+            bindTap(floorDiv, () => {
+                alert(`Floor ${floor.num}: ${floor.desc}\n\n4 workers (attention heads)\n8 notebooks per worker (4 private, 2 floor-shared, 2 global-shared)`);
+            });
+
+            buildingViz.appendChild(floorDiv);
+        });
+
+        // Token spawning function
+        const tokens = [
+            '"the"', '"a"', '"Stanford"', '"university"', '"is"', '";"',
+            '"!"', '"machine"', '"learning"', '"model"', '"attention"',
+            '"slot"', '"notebook"', '"worker"', '"layer"', '"building"'
+        ];
+
+        function spawnToken() {
+            const token = tokens[Math.floor(Math.random() * tokens.length)];
+            const floatingToken = document.createElement('div');
+            floatingToken.className = 'floating-token';
+            floatingToken.textContent = token;
+
+            // Better positioning for mobile
+            const maxWidth = window.innerWidth - 100;
+            floatingToken.style.left = Math.random() * maxWidth + 'px';
+            floatingToken.style.bottom = '120px';
+
+            document.body.appendChild(floatingToken);
+
+            setTimeout(() => {
+                floatingToken.remove();
+            }, 4000);
+        }
+
+        // Animate satisfaction meters on page load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.meter-fill').forEach((fill, i) => {
+                const target = fill.getAttribute('data-target') || "0";
+                setTimeout(() => {
+                    fill.style.width = `${target}%`;
+                }, i * 200);
+            });
+        });
+
+        // Add some random token spawns (less frequent on mobile)
+        const isMobile = window.innerWidth < 768;
+        const spawnInterval = isMobile ? 8000 : 5000;
+
+        setInterval(() => {
+            if (Math.random() < 0.3) {
+                spawnToken();
+            }
+        }, spawnInterval);
+
+        // Easter egg: Click on notebooks
+        document.querySelectorAll('.notebook').forEach(notebook => {
+            bindTap(notebook, () => {
+                const messages = [
+                    "This notebook contains entity references!",
+                    "Grammatical structure stored here",
+                    "Semantic roles accumulating...",
+                    "Structural markers: the, a, is, are",
+                    "Private memory - head exclusive use only!",
+                    "Floor-shared notebook - collaboration in progress",
+                    "Global notebook - building-wide access!",
+                    "Role accumulator: 127 tokens processed"
+                ];
+                alert(messages[Math.floor(Math.random() * messages.length)]);
+            });
+        });
+    </script>
+</body>
+</html>
