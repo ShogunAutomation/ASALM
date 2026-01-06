@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ASALM - A language model with state and slots. Research contribution on advanced language model architectures.">
+    <title>ASALM - A Language Model with State and Slots</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .card h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .card ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card li {
+            margin-bottom: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 0.25rem;
+        }
+
+        .github-link {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: #24292e;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.3s;
+            margin-top: 1rem;
+        }
+
+        .github-link:hover {
+            background: #1b1f23;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            background: white;
+            margin-top: 2rem;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 1rem;
+            border-left: 4px solid #ffc107;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ASALM</h1>
+        <p>A Language Model with State and Slots</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>About the Project</h2>
+            <p>
+                ASALM (A State and Slot Language Model) is a research contribution exploring advanced 
+                architectures for language models that incorporate explicit state management and slot-based 
+                representations. This approach aims to improve the model's ability to track and maintain 
+                contextual information across long sequences.
+            </p>
+            <div>
+                <span class="badge">Research</span>
+                <span class="badge">NLP</span>
+                <span class="badge">Machine Learning</span>
+                <span class="badge">Open Source</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Key Concepts</h2>
+            
+            <h3>State Management</h3>
+            <p>
+                Traditional language models process sequences autoregressively without explicit state 
+                tracking. ASALM introduces a state mechanism that allows the model to maintain and 
+                update internal representations across processing steps, enabling better long-range 
+                dependency modeling.
+            </p>
+
+            <h3>Slot-Based Representation</h3>
+            <p>
+                The slot architecture provides dedicated memory locations for different types of 
+                information. This structured approach helps the model organize and retrieve relevant 
+                context more effectively than standard attention-only mechanisms.
+            </p>
+
+            <h3>Applications</h3>
+            <ul>
+                <li>Long-form dialogue systems requiring conversation history tracking</li>
+                <li>Document understanding with explicit entity and relation slots</li>
+                <li>Multi-turn reasoning tasks with intermediate state preservation</li>
+                <li>Incremental text generation with controllable attributes</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Research Motivation</h2>
+            <p>
+                Current transformer-based language models, while powerful, face challenges in 
+                maintaining explicit state and structured information over long contexts. The 
+                attention mechanism, though flexible, can struggle with:
+            </p>
+            <ul>
+                <li>Explicit tracking of entities and their properties over time</li>
+                <li>Maintaining separate context types (e.g., facts vs. opinions)</li>
+                <li>Efficient updating of specific information without full reprocessing</li>
+                <li>Interpretability of what information is being maintained</li>
+            </ul>
+            <p>
+                ASALM addresses these challenges by combining the strengths of neural language models 
+                with explicit state and slot mechanisms, creating a more structured and interpretable 
+                approach to language understanding.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Technical Architecture</h2>
+            <div class="highlight">
+                <strong>Note:</strong> This is an active research project. Implementation details 
+                and experimental results will be published as the research progresses.
+            </div>
+            <p>
+                The ASALM architecture integrates:
+            </p>
+            <ul>
+                <li><strong>Base Transformer Layers:</strong> Standard self-attention mechanisms for token-level processing</li>
+                <li><strong>State Modules:</strong> Dedicated components for maintaining global and local state representations</li>
+                <li><strong>Slot Attention:</strong> Specialized attention mechanisms for reading from and writing to memory slots</li>
+                <li><strong>Update Gates:</strong> Learned mechanisms for determining when and how to update state and slots</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Open Source Contribution</h2>
+            <p>
+                This project is open source and welcomes contributions from the research community. 
+                We believe in collaborative development and transparent research practices.
+            </p>
+            <h3>How to Contribute</h3>
+            <ul>
+                <li>Review the codebase and documentation</li>
+                <li>Submit issues for bugs or feature requests</li>
+                <li>Propose improvements or extensions to the architecture</li>
+                <li>Share experimental results or alternative implementations</li>
+                <li>Help improve documentation and examples</li>
+            </ul>
+            <a href="https://github.com/ShogunAutomation/ASALM" class="github-link">
+                View on GitHub →
+            </a>
+        </div>
+
+        <div class="card">
+            <h2>Contact & Citation</h2>
+            <p>
+                For questions, collaboration opportunities, or to discuss the research, please open 
+                an issue on the GitHub repository or reach out through GitHub discussions.
+            </p>
+            <p>
+                <strong>License:</strong> This project is released under an open source license. 
+                See the repository for full license details.
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 ASALM Project. Open Source Research Contribution.</p>
+        <p>Deployed on <a href="https://render.com" style="color: #667eea; text-decoration: none;">Render</a></p>
+    </footer>
+</body>
+</html>
